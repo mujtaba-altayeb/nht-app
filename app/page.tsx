@@ -10,25 +10,27 @@ import { Instagram } from "lucide-react";
 import { useRouter } from "next/navigation"; // Change this line
 
 export default function Home() {
-  const webcamRef = useRef(null);
+  const webcamRef = useRef<Webcam>(null);
 
   const router = useRouter();
 
   const capture = React.useCallback(() => {
-    const imageSrc = webcamRef.current.getScreenshot({
-      width: 1240,
-      height: 960,
-    });
-    router.push("/generate");
+    if (webcamRef.current) {
+      const imageSrc = webcamRef.current.getScreenshot({
+        width: 1240,
+        height: 960,
+      });
+      router.push("/generate");
 
-    // fetch("http://localhost:8080/save_image", {
-    //  method: "POST",
-    //  body: JSON.stringify({ data: imageSrc }),
-    //  headers: { "Content-Type": "application/json" },
-    //}).then(() => {
-    //  router.push("/generate");
-    // });
-  }, [webcamRef]);
+      // fetch("http://localhost:8080/save_image", {
+      //  method: "POST",
+      //  body: JSON.stringify({ data: imageSrc }),
+      //  headers: { "Content-Type": "application/json" },
+      //}).then(() => {
+      //  router.push("/generate");
+      // });
+    }
+  }, [webcamRef, router]);
 
   return (
     <Container>
